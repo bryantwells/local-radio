@@ -1,0 +1,23 @@
+<main class="Main Main--home">
+    <header class="Header">
+        <h1 class="Header-title">
+            <a href="/" class="Header-titleSpan">░░ Local Radio</a>
+            <span>:</span>
+            {{#if source}}
+            <span class="Header-titleSpan">{{source.title}} ({{source.listeners}})</span>
+            {{else}}
+            <span class="Header-titleSpan">{{title}}</span>
+            {{/if}}
+        </h1>
+    </header>
+    <section class="PageContent">
+        {{#if source}}
+            <p>{{source.description}}</p>
+            <audio controls autoplay="true">
+                <source src="https://{{host}}/stream{{source.mount}}" type="audio/mp3">
+            </audio>
+        {{else}}
+            <p>Station not found!</p>
+        {{/if}}
+    </section>
+</main>

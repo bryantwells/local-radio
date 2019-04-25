@@ -1,0 +1,27 @@
+<main class="Main Main--home">
+    <header class="Header">
+        <h1 class="Header-title">
+            <a href="/" class="Header-titleSpan">░░ {{title}}</a>
+        </h1>
+    </header>
+    <section class="PageContent">
+        {{#if sources}}
+        <ul class="SourceList">
+            <h2>Active Stations:</h2>
+            {{#each sources}}
+            <li class="SourceList-item">
+                <a href="/station{{this.mount}}" class="SourceList-link">
+                    <h3 class="SourceList-title">{{this.title}} ({{this.listeners}})</h3>
+                </a>
+                <p class="SourceList-description">{{this.description}}</p>
+            </li>
+            {{/each}}
+        </ul>
+        {{else}}
+        <section>
+            <p>No active stations!</p>
+        </section>
+        {{/if}}
+        <a class="StreamButton StreamButton--new" href="/new">New Station</a>
+    </section>
+</main>

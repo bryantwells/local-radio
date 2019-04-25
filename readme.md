@@ -1,0 +1,1 @@
+change ssl-certificate in icecast.xml

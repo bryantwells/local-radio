@@ -1,0 +1,12 @@
+{
+    "env": {
+        "browser": true
+    },
+    "globals": {
+        "Webcast": true,
+        "host": true
+    },
+    "rules": {
+        "no-console": "off"
+    }
+}

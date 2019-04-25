@@ -1,0 +1,196 @@
+* { box-sizing: border-box; }
+
+::selection {
+    color: red;
+    background-color: none;
+}
+
+html, body, .Main { 
+    height: 100%;
+}
+
+body {
+    line-height: 1.35em;
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5 {
+    font-size: unset;
+    font-weight: unset;
+    margin: 0;
+}
+
+p { margin: 0; }
+
+a { color: unset; }
+
+ul { list-style-type: none; }
+
+button, select, input, textarea {
+    font-size: unset;
+    font-family: unset;
+    background-color: unset;
+    outline: none;
+    border: none;
+    margin-bottom: 0.25em;
+    padding: 0;
+}
+
+select:disabled, input:disabled, textarea:disabled {
+    color: rgba(0, 0, 0, 0.25);
+}
+
+textarea {
+    height: 5em;
+}
+
+select {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+select:disabled {
+    border-color: rgba(0, 0, 0, 0.25);
+}
+
+.StreamButton {
+    border: 1px solid red;
+    color: red;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 0.15em 0.5em;
+}
+
+.StreamButton:not(:disabled):hover {
+    background-color: red;
+    color: white;
+}
+
+button {
+    padding: 0.25em;
+}
+
+.StreamButton:disabled {
+    color: rgba(0, 0, 0, 0.25);
+    border-color: rgba(0, 0, 0, 0.25);
+    cursor: default;
+}
+
+.SourceList {
+    margin-bottom: 1em;
+}
+
+header a {
+    text-decoration: underline;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+input::placeholder, textarea::placeholder {
+    color: rgba(0, 0, 0, 0.25);
+}
+
+textarea {
+    display: block;
+    width: 100%;
+    resize: none;
+    overflow: hidden;
+}
+input {
+    display: block;
+}
+
+ol, ul, il {
+    margin: 0;
+    padding: 0;
+    list-style: 0;
+}
+
+ul li a::before {
+    margin-right: 1em;
+    text-decoration: none;
+}
+
+
+.PageContent {
+    max-width: 400px
+}
+
+.SourceList-item::before {
+    content: '•';
+    margin-right: 0.625em;
+}
+
+.SourceList-title {
+    display: inline-block;
+}
+
+.Main {
+    padding: 1em;
+}
+
+.Header {
+    margin-bottom: 1.5em;
+}
+
+.Header-link {
+    text-decoration: none;
+}
+
+.Header-link:hover {
+    background-color: red;
+}
+
+.Main--new .Header-titleSpan--stream  {
+    display: none;
+}
+.Main--new.is-active .Header-titleSpan--stream {
+    display: inline-block;
+}
+
+.Main--new .Header-titleSpan--new {
+    display: inline-block;
+}
+.Main--new.is-active .Header-titleSpan--new {
+    display: none;
+}
+
+.Main--new.is-active {
+    background-color: red;
+}
+
+.Main--new.is-active select:disabled {
+    border-color: black;
+}
+.Main--new.is-active select:disabled, .Main--new.is-active input:disabled, .Main--new.is-active textarea:disabled {
+    color: black;
+}
+
+
+.Main--new.is-active .StreamButton {
+    color: white;
+    border-color: white;
+}
+.Main--new.is-active .StreamButton:hover {
+    color: red;
+    background-color: white;
+}
+
+.SourceList-description {
+    margin-left: 1.25em;
+}
+.SourceList-title {
+    text-decoration: underline;
+}
+
+audio {
+    width: 100%;
+    background-color: #f1f3f4;
+    
+}
+
+p {
+    margin-bottom: 0.5em;
+}

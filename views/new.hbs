@@ -1,0 +1,26 @@
+<main class="Main Main--new">
+    <header class="Header">
+        <h1 class="Header-title">
+            <a href="/" class="Header-titleSpan">░░ Local Radio</a>
+            <span>:</span>
+            <span class="Header-titleSpan Header-titleSpan--stream"></span>
+            <span class="Header-titleSpan Header-titleSpan--new">{{title}}</span>
+        </h1>
+    </header>
+    <section class="PageContent">
+        <form class="StreamOptions">
+            <select required class="StreamOptions-sourceSelect">
+                <option value="">Select Input...</option>
+            </select>
+            <input class="StreamOptions-title" type="text" name="title" placeholder="Enter Station Title...">
+            <textarea class="StreamOptions-description" name="description" placeholder="Enter Station Description..."></textarea>
+            <button disabled class="StreamButton">Start Streaming</button>
+        </form>
+    </section>
+</main>
+
+<script src="js/lib/shine.js"></script>
+<script src="js/lib/samplerate.js"></script>
+<script src="js/lib/webcast.js"></script>
+<script>const host = '{{ host }}'</script>
+<script src="js/new.js"></script>

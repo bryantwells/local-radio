@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "DEBUG=myapp:* node ./bin/www",
-    "cast": "icecast -c icecast.xml"
+    "dev": "DEBUG=myapp:* node ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",

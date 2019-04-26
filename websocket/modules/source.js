@@ -77,12 +77,6 @@ class Source extends EventEmitter {
             process.env.DEBUG_MODE && console.log(response.statusCode, response.statusMessage);
         }).end();
 
-        // catch error
-        killRequest.on('error', (error) => {
-            // eslint-disable-next-line
-            console.log(error);
-        });
-
         return killRequest;
     }
 
@@ -104,14 +98,6 @@ class Source extends EventEmitter {
             // eslint-disable-next-line
             process.env.DEBUG_MODE && console.log(response.statusCode, response.statusMessage);
         }).end();
-
-        // console.log(updateRequest);
-
-        // catch update error
-        // updateRequest.on('error', (error) => {
-        //     // eslint-disable-next-line
-        //     process.env.DEBUG_MODE && console.log(error);
-        // });
 
         // send metadata back to the client
         this.socket.send(JSON.stringify({

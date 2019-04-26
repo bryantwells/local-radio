@@ -73,7 +73,7 @@ class SourceList {
                     parseString(xml, (error, result) => {
                         // eslint-disable-next-line
                         process.env.DEBUG_MODE && console.log(`${new Date()} -- Got server stats`);
-                        console.log(result.report.$);
+                        console.log(this.credentials);
 
                         // return the icestats object
                         resolve(result.icestats);

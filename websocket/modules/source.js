@@ -105,13 +105,13 @@ class Source extends EventEmitter {
             process.env.DEBUG_MODE && console.log(response.statusCode, response.statusMessage);
         }).end();
 
-        console.log(updateRequest);
+        // console.log(updateRequest);
 
         // catch update error
-        updateRequest.on('error', (error) => {
-            // eslint-disable-next-line
-            process.env.DEBUG_MODE && console.log(error);
-        });
+        // updateRequest.on('error', (error) => {
+        //     // eslint-disable-next-line
+        //     process.env.DEBUG_MODE && console.log(error);
+        // });
 
         // send metadata back to the client
         this.socket.send(JSON.stringify({

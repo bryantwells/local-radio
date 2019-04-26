@@ -105,6 +105,8 @@ class Source extends EventEmitter {
             process.env.DEBUG_MODE && console.log(response.statusCode, response.statusMessage);
         }).end();
 
+        console.log(updateRequest);
+
         // catch update error
         updateRequest.on('error', (error) => {
             // eslint-disable-next-line

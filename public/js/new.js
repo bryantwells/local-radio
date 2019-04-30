@@ -91,87 +91,89 @@ class Stream {
 
 // Get user media
 if (navigator.mediaDevices.getUserMedia) {
-    navigator.webkitGetUserMedia({ audio: true, video: true }, () => {
-        const stream = new Stream();
+    navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+        .then(() => {
+            const stream = new Stream();
 
-        // populate device list
-        navigator.mediaDevices.enumerateDevices()
-            .then((devices) => {
-                const inputDevices = devices.filter(d => d.kind === 'audioinput');
-                inputDevices.forEach((d) => {
-                    sourceSelect.innerHTML += `<option value='${d.deviceId}'>${d.label}</option>`;
+            // populate device list
+            navigator.mediaDevices.enumerateDevices()
+                .then((devices) => {
+                    const inputDevices = devices.filter(d => d.kind === 'audioinput');
+                    inputDevices.forEach((d) => {
+                        sourceSelect.innerHTML += `<option value='${d.deviceId}'>${d.label}</option>`;
+                    });
                 });
+
+            // select device
+            streamButton.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                // get id of selected device, create stream
+                const deviceId = sourceSelect[sourceSelect.selectedIndex].value;
+                if (!stream.isActive) {
+                    stream.activate(deviceId);
+                } else {
+                    stream.deactivate();
+                }
             });
 
-        // select device
-        streamButton.addEventListener('click', (e) => {
-            e.preventDefault();
+            titleInput.addEventListener('keyup', () => {
+                if (titleInput.value && descriptionInput.value && sourceSelect.value !== '') {
+                    streamButton.disabled = false;
+                } else {
+                    streamButton.disabled = true;
+                }
+            });
 
-            // get id of selected device, create stream
-            const deviceId = sourceSelect[sourceSelect.selectedIndex].value;
-            if (!stream.isActive) {
-                stream.activate(deviceId);
-            } else {
-                stream.deactivate();
-            }
-        });
+            descriptionInput.addEventListener('keyup', () => {
+                if (titleInput.value && descriptionInput.value && sourceSelect.value !== '') {
+                    streamButton.disabled = false;
+                } else {
+                    streamButton.disabled = true;
+                }
+                descriptionInput.style.height = '0px';
+                descriptionInput.style.height = `${descriptionInput.scrollHeight}px`;
+            });
 
-        titleInput.addEventListener('keyup', () => {
-            if (titleInput.value && descriptionInput.value && sourceSelect.value !== '') {
-                streamButton.disabled = false;
-            } else {
-                streamButton.disabled = true;
-            }
-        });
+            sourceSelect.addEventListener('change', () => {
+                if (titleInput.value && descriptionInput.value && sourceSelect.value !== '') {
+                    streamButton.disabled = false;
+                } else {
+                    streamButton.disabled = true;
+                }
+            });
 
-        descriptionInput.addEventListener('keyup', () => {
-            if (titleInput.value && descriptionInput.value && sourceSelect.value !== '') {
-                streamButton.disabled = false;
-            } else {
-                streamButton.disabled = true;
-            }
-            descriptionInput.style.height = '0px';
-            descriptionInput.style.height = `${descriptionInput.scrollHeight}px`;
-        });
+            window.addEventListener('activateStream', () => {
+                mainElement.classList.add('is-active');
+                titleInput.disabled = true;
+                sourceSelect.disabled = true;
+                descriptionInput.disabled = true;
+                streamTitle.innerText = titleInput.value;
+                streamButton.innerText = 'Stop Streaming';
+            });
 
-        sourceSelect.addEventListener('change', () => {
-            if (titleInput.value && descriptionInput.value && sourceSelect.value !== '') {
-                streamButton.disabled = false;
-            } else {
-                streamButton.disabled = true;
-            }
-        });
+            window.addEventListener('deactivateStream', () => {
+                mainElement.classList.remove('is-active');
+                titleInput.disabled = false;
+                sourceSelect.disabled = false;
+                descriptionInput.disabled = false;
+                streamTitle.innerText = '';
+                streamButton.innerText = 'start streaming';
+            });
 
-        window.addEventListener('activateStream', () => {
-            mainElement.classList.add('is-active');
-            titleInput.disabled = true;
-            sourceSelect.disabled = true;
-            descriptionInput.disabled = true;
-            streamTitle.innerText = titleInput.value;
-            streamButton.innerText = 'Stop Streaming';
+            window.addEventListener('beforeunload', () => {
+                // eslint-disable-next-line
+                const confirmation = confirm('Are you sure you want to close this window');
+                if (confirmation) {
+                    return true;
+                }
+                return false;
+            });
+        })
+        .catch((error) => {
+            console.log('hi');
+            console.error(error);
         });
-
-        window.addEventListener('deactivateStream', () => {
-            mainElement.classList.remove('is-active');
-            titleInput.disabled = false;
-            sourceSelect.disabled = false;
-            descriptionInput.disabled = false;
-            streamTitle.innerText = '';
-            streamButton.innerText = 'start streaming';
-        });
-
-        window.addEventListener('beforeunload', () => {
-            // eslint-disable-next-line
-            const confirmation = confirm('Are you sure you want to close this window');
-            if (confirmation) {
-                return true;
-            }
-            return false;
-        });
-    },
-    () => {
-        console.error('getUserMedia failed');
-    });
 } else {
     console.error('getUserMedia not supported');
 }

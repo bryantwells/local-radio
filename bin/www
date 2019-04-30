@@ -8,11 +8,10 @@ const fs = require('fs');
 const https = require('https');
 const debug = require('debug')('app:server');
 const app = require('../app');
-
 const routeWsRequest = require('../websocket/route-ws');
 
-const privateKey = fs.readFileSync('./ssl/server.key');
-const certificate = fs.readFileSync('./ssl/server.cert');
+const privateKey = fs.readFileSync(process.env.KEY_PATH);
+const certificate = fs.readFileSync(process.env.CERT_PATH);
 
 /**
  * Get port from environment and store in Express.
@@ -26,10 +25,7 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-const server = https.createServer({
-    key: privateKey,
-    cert: certificate,
-}, app);
+const server = https.createServer({ key: privateKey, cert: certificate }, app);
 
 /**
  * Listen on provided port, on all network interfaces.

@@ -113,7 +113,6 @@ ul li a::before {
     text-decoration: none;
 }
 
-
 .PageContent {
     max-width: 400px
 }
@@ -168,7 +167,6 @@ ul li a::before {
     color: black;
 }
 
-
 .Main--new.is-active .StreamButton {
     color: white;
     border-color: white;
@@ -188,9 +186,12 @@ ul li a::before {
 audio {
     width: 100%;
     background-color: #f1f3f4;
-    
 }
 
 p {
     margin-bottom: 0.5em;
+}
+
+.Spinner {
+    margin-right: 0.5em;
 }

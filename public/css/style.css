@@ -36,6 +36,11 @@ button, select, input, textarea {
     padding: 0;
 }
 
+button {
+    border-radius: 5px;
+    padding: 0.15em 0.5em;
+}
+
 select:disabled, input:disabled, textarea:disabled {
     color: rgba(0, 0, 0, 0.25);
 }
@@ -114,7 +119,7 @@ ul li a::before {
 }
 
 .PageContent {
-    max-width: 400px
+    max-width: 600px
 }
 
 .SourceList-item::before {
@@ -194,4 +199,8 @@ p {
 
 .Spinner {
     margin-right: 0.5em;
+}
+
+img {
+    display: block;
 }

@@ -6,6 +6,11 @@ const descriptionInput = document.querySelector('.StreamOptions-description');
 const streamButton = document.querySelector('.StreamButton');
 const streamTitle = document.querySelector('.Header-titleSpan--stream');
 
+function preventUnload(e) {
+    e.preventDefault();
+    e.returnValue = '';
+}
+
 class Stream {
     constructor() {
         this.isActive = false;
@@ -150,6 +155,7 @@ if (navigator.mediaDevices.getUserMedia) {
                 descriptionInput.disabled = true;
                 streamTitle.innerText = titleInput.value;
                 streamButton.innerText = 'Stop Streaming';
+                window.addEventListener('beforeunload', preventUnload);
             });
 
             window.addEventListener('deactivateStream', () => {
@@ -159,19 +165,10 @@ if (navigator.mediaDevices.getUserMedia) {
                 descriptionInput.disabled = false;
                 streamTitle.innerText = '';
                 streamButton.innerText = 'start streaming';
-            });
-
-            window.addEventListener('beforeunload', () => {
-                // eslint-disable-next-line
-                const confirmation = confirm('Are you sure you want to close this window');
-                if (confirmation) {
-                    return true;
-                }
-                return false;
+                window.removeEventListener('beforeunload', preventUnload);
             });
         })
         .catch((error) => {
-            console.log('hi');
             console.error(error);
         });
 } else {

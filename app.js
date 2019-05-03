@@ -19,6 +19,7 @@ const usersRouter = require('./routes/users');
 const newRouter = require('./routes/new');
 const stationRouter = require('./routes/station');
 const streamRouter = require('./routes/stream');
+const helpRouter = require('./routes/help');
 
 process.env.DEBUG_MODE = Number(process.env.DEBUG_MODE);
 
@@ -52,6 +53,7 @@ app.use('/users', usersRouter);
 app.use('/new', newRouter);
 app.use('/station', stationRouter);
 app.use('/stream', streamRouter);
+app.use('/help', helpRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

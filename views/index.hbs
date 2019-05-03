@@ -7,12 +7,12 @@
     <section class="PageContent">
         <p>Local Radio is hosted from the Piggyback server at the Graphic Design Atrium (1156 Chapel). This site is hosted locally and only accessible from the Yale Secure Network.</p>
         {{#if sources}}
+        <h2>Active Stations:</h2>
         <ul class="SourceList">
-            <h2>Active Stations:</h2>
             {{#each sources}}
             <li class="SourceList-item">
                 <a href="/station{{this.mount}}" class="SourceList-link">
-                    <h3 class="SourceList-title">{{this.title}} ({{this.listeners}})</h3>
+                    <h3 class="SourceList-title">{{{this.title}}} ({{this.listeners}})</h3>
                 </a>
                 <p class="SourceList-description">{{this.description}}</p>
             </li>
@@ -24,5 +24,9 @@
         </section>
         {{/if}}
         <a class="StreamButton StreamButton--new" href="/new">New Station</a>
+        {{!-- <hr>
+        <h2>Bulletin</h2>
+        <ul></ul>
+        <input class="PostInput" type="text" name="Post"><button class="PostButton">Post</button> --}}
     </section>
 </main>

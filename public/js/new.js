@@ -26,6 +26,7 @@ class Stream {
     activate(deviceId) {
         navigator.mediaDevices.getUserMedia({ audio: { deviceId }, video: false })
             .then((stream) => {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
                 this.context = new AudioContext();
                 this.source = this.context.createMediaStreamSource(stream);
                 this.inputSampleRate = this.source.context.sampleRate;

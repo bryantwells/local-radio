@@ -1,3 +1,8 @@
+@font-face {
+  font-family: Folio;
+  src: url(/fonts/folio.woff);
+}
+
 * { box-sizing: border-box; }
 
 ::selection {
@@ -7,6 +12,7 @@
 
 html, body, .Main { 
     height: 100%;
+    font-family: Folio;
 }
 
 body {

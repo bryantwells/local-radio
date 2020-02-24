@@ -25,6 +25,7 @@ class SourceMessage {
                 // mount point, MIME type, channels
                 this.socket.hello = this.message.data;
                 // eslint-disable-next-line
+                console.log(process.env.DEBUG_MODE == true);
                 process.env.DEBUG_MODE && console.log(`${new Date()} -- Mount point: ${this.request.url}.`);
                 // eslint-disable-next-line
                 process.env.DEBUG_MODE && console.log(`${new Date()} -- MIME type: ${this.socket.hello.mime}.`);

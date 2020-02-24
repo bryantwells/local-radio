@@ -1,7 +1,7 @@
 <main class="Main Main--home">
     <header class="Header">
         <h1 class="Header-title">
-            <span class="Spinner">░</span><a href="/" class="Header-titleSpan">░Local Radio</a>
+            <span class="Spinner">░</span><a href="/" class="Header-titleSpan">Local Radio</a>
             <span>:</span>
             {{#if source}}
             <span class="Header-titleSpan">{{source.title}} ({{source.listeners}})</span>
@@ -12,7 +12,7 @@
     </header>
     <section class="PageContent">
         {{#if source}}
-            <p>{{source.description}}</p>
+            <p class="StationDescription">{{source.description}}</p>
             <audio controls autoplay="true">
                 <source src="https://{{host}}/stream{{source.mount}}" type="audio/mp3">
             </audio>
@@ -20,4 +20,7 @@
             <p>Station not found!</p>
         {{/if}}
     </section>
+    <footer>
+        <i>Node/12.0.0 (Ubuntu) Server at local-radio.piggyback.page Port 443</i>
+    </footer>
 </main>

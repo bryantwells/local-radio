@@ -5,7 +5,7 @@
         </h1>
     </header>
     <section class="PageContent">
-        <p>Local Radio is hosted from the Piggyback server at the Graphic Design Atrium (1156 Chapel). This site is hosted locally and only accessible from the Yale Secure Network.</p>
+        <p class="Intro">Local Radio is hosted from the Piggyback server at the 1156 Chapel. Stations are hosted locally and only accessible from the YaleSecure Network.</p>
         {{#if sources}}
         <h2>Active Stations:</h2>
         <ul class="SourceList">
@@ -20,13 +20,17 @@
         </ul>
         {{else}}
         <section>
-            <p>No active stations!</p>
+            <p class="InactiveMessage">There are no active stations.</p>
         </section>
         {{/if}}
-        <a class="StreamButton StreamButton--new" href="/new">New Station</a>
+        <a class="StreamButton StreamButton--new" href="/new">Create a new station</a>
         {{!-- <hr>
         <h2>Bulletin</h2>
         <ul></ul>
         <input class="PostInput" type="text" name="Post"><button class="PostButton">Post</button> --}}
     </section>
+    <footer>
+        <i>Node/12.0.0 (Ubuntu) Server at local-radio.piggyback.page Port 443</i>
+        <img src="/img/wiley-2.jpg">
+    </footer>
 </main>

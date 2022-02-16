@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const https = require('https');
 const { parseString } = require('xml2js');
+const ICECAST_HOST = process.env.ICECAST_HOST || '127.0.0.1';
 
 const Source = require('./source');
 const SourceMessage = require('./source-message');
@@ -56,10 +57,11 @@ class SourceList {
             // list mounts
             https.request({
                 method: 'GET',
-                host: '127.0.0.1',
+                host: ICECAST_HOST,
                 port: process.env.ICECAST_PORT || '8000',
                 path: '/admin/stats',
                 headers: { 'Authorization': `Basic ${this.credentialStrings.admin}` },
+                rejectUnauthorized: false,
             }, (response) => {
                 // eslint-disable-next-line
                 process.env.DEBUG_MODE && console.log(response.statusCode, response.statusMessage);

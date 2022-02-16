@@ -1,0 +1,8 @@
+{
+  http_port 8080
+  https_port 2200
+}
+
+{$SERVER_NAME} {
+        reverse_proxy icecast:2100 
+}

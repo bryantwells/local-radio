@@ -1,5 +1,6 @@
 const { EventEmitter } = require('events');
 const https = require('https');
+const ICECAST_HOST = process.env.ICECAST_HOST || '127.0.0.1';
 
 class Source extends EventEmitter {
     constructor(request, credentials, mountPath, headers, socket) {
@@ -20,9 +21,10 @@ class Source extends EventEmitter {
         this.options = {
             agent: this.keepAliveAgent,
             method: 'PUT',
-            host: '127.0.0.1',
+            host: ICECAST_HOST,
             port: process.env.ICECAST_PORT || '8000',
             path: this.mountPath,
+            rejectUnauthorized: false,
             headers,
         };
 
@@ -48,7 +50,7 @@ class Source extends EventEmitter {
 
         this.httpsRequest.on('error', (error) => {
             // eslint-disable-next-line
-            process.env.DEBUG_MODE && console.error(error) 
+            process.env.DEBUG_MODE && console.error(error)
         });
     }
 
@@ -60,17 +62,18 @@ class Source extends EventEmitter {
         // end the original request
         this.httpsRequest.on('end', (response) => {
             // eslint-disable-next-line
-            process.env.DEBUG_MODE && console.log(response) 
+            process.env.DEBUG_MODE && console.log(response)
         });
         this.httpsRequest.end();
 
         // create kill request
         const killRequest = https.request({
             method: 'GET',
-            host: '127.0.0.1',
+            host: ICECAST_HOST,
             port: process.env.ICECAST_PORT || '8000',
             path: `/admin/killsource?mount=${this.options.path}`,
             headers: { 'Authorization': `Basic ${this.adminCredentials}` },
+            rejectUnauthorized: false,
         }, (response) => {
             // response returns 404 since switching from http to https, for some reason
             // eslint-disable-next-line
@@ -90,10 +93,11 @@ class Source extends EventEmitter {
         // update icecast metadata
         const updateRequest = https.request({
             method: 'GET',
-            host: '127.0.0.1',
+            host: ICECAST_HOST,
             port: process.env.ICECAST_PORT || '8000',
             path: encodeURI(`/admin/metadata?pass=${this.sourceCredentials}&mount=${this.options.path}&mode=updinfo&song=${this.metadataString}`),
             headers: { 'Authorization': `Basic ${this.sourceCredentials}` },
+            rejectUnauthorized: false,
         }, (response) => {
             // eslint-disable-next-line
             process.env.DEBUG_MODE && console.log(response.statusCode, response.statusMessage);

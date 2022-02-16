@@ -1,0 +1,60 @@
+version: '3.9'
+
+networks:
+  web:
+    external: true
+    driver: bridge
+  internal:
+    external: false
+    driver: bridge
+
+services:
+  caddy:
+    container_name: caddy
+    restart: unless-stopped
+    image: caddy:2-alpine
+    environment:
+      SERVER_NAME: ${SERVER_NAME:-localhost}
+    ports:
+      - 2200:2200
+    expose:
+      - 2200
+    volumes:
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+    networks:
+      - web
+      - internal
+    depends_on:
+      - app
+
+  icecast:
+    container_name: ice
+    image: pltnk/icecast2
+    restart: unless-stopped
+    volumes:
+      - $PWD/icecast.xml:/etc/icecast2/icecast.xml
+    ports:
+      - 2100:2100
+    networks:
+      - internal
+
+  app:
+    container_name: app
+    image: app
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    environment:
+      - ICECAST_HOST=caddy
+    expose:
+      - 3000
+    links:
+      - icecast
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - icecast
+    networks:
+      - web

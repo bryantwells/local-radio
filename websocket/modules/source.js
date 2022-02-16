@@ -24,7 +24,6 @@ class Source extends EventEmitter {
             host: ICECAST_HOST,
             port: process.env.ICECAST_PORT || '8000',
             path: this.mountPath,
-            rejectUnauthorized: false,
             headers,
         };
 
@@ -73,7 +72,6 @@ class Source extends EventEmitter {
             port: process.env.ICECAST_PORT || '8000',
             path: `/admin/killsource?mount=${this.options.path}`,
             headers: { 'Authorization': `Basic ${this.adminCredentials}` },
-            rejectUnauthorized: false,
         }, (response) => {
             // response returns 404 since switching from http to https, for some reason
             // eslint-disable-next-line
@@ -97,7 +95,6 @@ class Source extends EventEmitter {
             port: process.env.ICECAST_PORT || '8000',
             path: encodeURI(`/admin/metadata?pass=${this.sourceCredentials}&mount=${this.options.path}&mode=updinfo&song=${this.metadataString}`),
             headers: { 'Authorization': `Basic ${this.sourceCredentials}` },
-            rejectUnauthorized: false,
         }, (response) => {
             // eslint-disable-next-line
             process.env.DEBUG_MODE && console.log(response.statusCode, response.statusMessage);

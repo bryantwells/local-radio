@@ -17,7 +17,8 @@ services:
   #   ports:
   #     - 2200:2200
   #   expose:
-  #     - 2200
+  #     - 9900
+  #     - 9090
   #   volumes:
   #     - $PWD/Caddyfile:/etc/caddy/Caddyfile
   #   networks:
@@ -32,7 +33,7 @@ services:
     restart: unless-stopped
     volumes:
       - $PWD/icecast.xml:/etc/icecast2/icecast.xml
-      - $PWD/bundle.pem:/etc/icecast2/bundle.pem
+      - $PWD/certs/bundle.pem:/etc/icecast2/bundle.pem
       - $PWD/icecast.sh:/entrypoint.sh
     environment:
       - ICECAST_HOSTNAME=icecast

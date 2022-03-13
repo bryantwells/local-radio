@@ -81,7 +81,7 @@ class SourceList {
                     });
                 });
                 response.on('error', (error) => {
-                    reject(error);
+                    reject(`ERROR: ${error.message}`);
                 });
             }).end();
         });

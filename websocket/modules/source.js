@@ -38,7 +38,7 @@ class Source extends EventEmitter {
         // make request
         this.httpsRequest = https.request(this.options, (response) => {
             // eslint-disable-next-line
-            process.env.DEBUG_MODE && console.log(response.statusCode, response.statusMessage);
+            process.env.DEBUG_MODE && console.log('RES_CODE:', response.statusCode, 'RES_MESSAGE', response.statusMessage);
 
             // send status update to the client
             this.socket.send(JSON.stringify({
@@ -49,7 +49,7 @@ class Source extends EventEmitter {
 
         this.httpsRequest.on('error', (error) => {
             // eslint-disable-next-line
-            process.env.DEBUG_MODE && console.error(error)
+            process.env.DEBUG_MODE && console.error('ERROR:', error)
         });
     }
 

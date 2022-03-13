@@ -1,8 +1,18 @@
 {
-  http_port 8080
-  https_port 2200
+  http_port 9090
+  https_port 9900
 }
 
-{$SERVER_NAME} {
-        reverse_proxy icecast:2100 
+radio.{$SERVER_NAME}:9900 {
+        reverse_proxy app:3000 
+        tls internal
+}
+
+radio.{$SERVER_NAME}:9090 {
+        reverse_proxy app:8080 
+}
+
+ice.{$SERVER_NAME} {
+        reverse_proxy icecast:2100
+        tls internal
 }

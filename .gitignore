@@ -2,4 +2,6 @@ node_modules/
 ssl/
 .env
 icecast.xml
-*.pem
+*/*.pem
+*/*.crt
+*/*.key

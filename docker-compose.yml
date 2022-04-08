@@ -25,7 +25,7 @@ services:
   #     - web
   #     - internal
   #   depends_on:
-  #     - app
+  #     - app     
 
   icecast:
     container_name: ice

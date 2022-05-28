@@ -3,15 +3,16 @@
 /**
  * Module dependencies.
  */
-
+const path = require('path');
 const fs = require('fs');
+const http = require('http');
 const https = require('https');
 const debug = require('debug')('app:server');
 const app = require('../app');
 const routeWsRequest = require('../websocket/route-ws');
 
-const privateKey = fs.readFileSync(process.env.KEY_PATH);
-const certificate = fs.readFileSync(process.env.CERT_PATH);
+const privateKey = fs.readFileSync(path.join(__dirname, '../certs/localhost.key'), 'utf8');
+const certificate = fs.readFileSync(path.join(__dirname, '../certs/localhost.crt'), 'utf8');
 
 /**
  * Get port from environment and store in Express.
@@ -24,7 +25,7 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-
+http.createServer(app).listen(8080);
 const server = https.createServer({ key: privateKey, cert: certificate }, app);
 
 /**
@@ -54,18 +55,18 @@ function onError(error) {
 
     // handle specific listen errors with friendly messages
     switch (error.code) {
-    case 'EACCES':
-        // eslint-disable-next-line
-        console.error(bind + ' requires elevated privileges');
-        process.exit(1);
-        break;
-    case 'EADDRINUSE':
-        // eslint-disable-next-line
-        console.error(bind + ' is already in use');
-        process.exit(1);
-        break;
-    default:
-        throw error;
+        case 'EACCES':
+            // eslint-disable-next-line
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            // eslint-disable-next-line
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
     }
 }
 

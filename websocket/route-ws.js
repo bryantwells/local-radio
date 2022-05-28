@@ -20,7 +20,7 @@ function routeWsRequest(request, socket, head) {
     // check route path
     switch (url.parse(request.url).pathname) {
 
-        case '/mount': 
+        case '/mount':
 
             // check headers
             const protocolIsValid = request.headers['sec-websocket-protocol'] == 'webcast'

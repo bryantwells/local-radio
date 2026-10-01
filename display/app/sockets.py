@@ -26,6 +26,7 @@ def connect():
 
 @sio.event
 def sourceList(sources: list[Source]):
+    print(f"sourceList received: {sources}")
     if len(sources) > 0:
         draw(sources[0])
     else:

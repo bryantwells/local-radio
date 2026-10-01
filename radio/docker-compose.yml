@@ -1,0 +1,20 @@
+name: local-radio-radio
+services:
+
+  radio-middleware:
+    restart: unless-stopped
+    build:
+      context: ./radio-middleware
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./radio-middleware/server/index.js:/usr/src/radio-middleware/index.js
+      - ./radio-middleware/server/models:/usr/src/radio-middleware/models
+      - ./radio-middleware/server/modules:/usr/src/radio-middleware/modules
+
+  radio-server:
+    restart: unless-stopped
+    build:
+      context: ./radio-server
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./radio-server/config/icecast.xml:/etc/icecast2/icecast.xml

@@ -1,0 +1,13 @@
+# Use Debian base image
+FROM debian:bookworm-slim
+
+# install icecast2 and enable its autostart
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends icecast2 && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy config
+COPY ./config/icecast.xml /etc/icecast2/icecast.xml
+
+CMD /etc/init.d/icecast2 start && \
+	tail -F /var/log/icecast2/error.log

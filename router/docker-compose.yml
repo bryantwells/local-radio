@@ -1,0 +1,38 @@
+name: local-radio-router
+services:
+
+  caddy:
+    build: ./caddy
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - RADIO_FRONTEND_HOST
+      - RADIO_MIDDLEWARE_HOST
+      - RADIO_SERVER_HOST
+      - CLOUDFLARE_API_TOKEN
+      - ACME_EMAIL
+    volumes:
+      - ../html:/var/www/html
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+  dns:
+    build: ./dns
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - CLOUDFLARE_API_TOKEN
+      - CLOUDFLARE_ACCOUNT_ID
+      - IP_ADDRESS
+      - RADIO_FRONTEND_HOST
+      - RADIO_MIDDLEWARE_HOST
+      - RADIO_SERVER_HOST
+      - DNS_UPDATE_INTERVAL
+
+volumes:
+  caddy_data:
+  caddy_config:
+

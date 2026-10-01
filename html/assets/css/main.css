@@ -1,0 +1,171 @@
+* {
+	box-sizing: border-box;
+}
+
+::selection {
+	color: blue;
+}
+
+html {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: large;
+	height: 100%;
+	color-scheme: light dark;
+	letter-spacing: 0.05em;
+
+	&[data-streaming="true"] {
+		background-color: red;
+
+		input,
+		select,
+		textarea {
+			background-color: red;
+			color: CanvasText;
+		}
+
+		button {
+			background-color: CanvasText;
+			color: red;
+		}
+	}
+
+	@media (max-width: 800px) {
+		font-size: medium;
+	}
+
+	@media (max-width: 400px) {
+		font-size: 14px;
+	}
+}
+
+body {
+	margin: 0;
+	min-height: 100%;
+	display: grid;
+	gap: 1rem;
+	padding: 1rem;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+
+	@media (max-width: 800px) {
+		align-items: start;
+		align-content: start;
+		padding: 2rem;
+	}
+}
+
+h1,
+h2 {
+	margin: 0;
+	font: inherit;
+}
+
+p {
+	margin: 0;
+}
+
+label {
+	font-size: small;
+}
+
+input,
+select,
+button,
+textarea {
+	font: inherit;
+	padding: 0.25rem;
+	border-radius: 5px;
+	border: 1px dotted currentColor;
+}
+
+textarea {
+	resize: none;
+}
+
+button {
+	cursor: pointer;
+
+	svg {
+		width: 1rem;
+		aspect-ratio: 1/1;
+		display: block;
+	}
+}
+
+select {
+	cursor: pointer;
+}
+
+a {
+	color: inherit;
+
+	&:hover {
+		color: blue;
+	}
+}
+
+.nav {
+	font-size: small;
+}
+
+.nav-item {
+	opacity: 0.5;
+}
+
+.header {
+	display: grid;
+	gap: 0.75rem;
+}
+
+.header,
+.main,
+.footer {
+	width: 30em;
+
+	@media (max-width: 33em) {
+		width: 100%;
+	}
+}
+
+.main {
+	display: grid;
+	gap: 1rem;
+}
+
+.footer {
+	font-size: small;
+	padding-bottom: 4rem;
+}
+
+.form,
+.player {
+	padding: 0.75rem;
+	display: grid;
+	gap: 0.5rem;
+	border: 1px dotted currentColor;
+	margin: 1rem 2rem;
+
+	&[hidden] {
+		display: none;
+	}
+}
+
+.player footer {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	background: light-dark(gainsboro, dimgrey);
+	padding: 0.25rem;
+	border-radius: 10px;
+	border: 1px dotted black;
+}
+
+.player button {
+	background-color: black;
+	border: none;
+
+	svg {
+		fill: gainsboro;
+	}
+}

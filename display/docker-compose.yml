@@ -1,0 +1,12 @@
+name: local-radio-display
+services:
+
+  display:
+    build: ./
+    restart: unless-stopped
+    profiles:
+      - display
+    environment:
+      - PROGRAM_ENVIRONMENT
+    volumes:
+      - ./out:/app/out

@@ -1,0 +1,17 @@
+# Use Node base image
+FROM node:26.9.0-alpine
+
+# Install sound library
+RUN apk add --no-cache ffmpeg
+
+# Set the work directory
+WORKDIR /usr/src/radio-middleware
+
+# copy both 'package.json' and 'package-lock.json' (if available)
+COPY ./server/package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Run the app
+CMD ["npm", "run", "dev"]

@@ -1,0 +1,27 @@
+{
+	email {$ACME_EMAIL}
+}
+
+{$RADIO_FRONTEND_HOST} {
+	tls {
+		dns cloudflare {$CLOUDFLARE_API_TOKEN}
+	}
+	root * /var/www/html
+	try_files {path} {path}/ {path}.html
+	file_server
+}
+
+{$RADIO_MIDDLEWARE_HOST} {
+	tls {
+		dns cloudflare {$CLOUDFLARE_API_TOKEN}
+	}
+	reverse_proxy radio-middleware:3000
+}
+
+{$RADIO_SERVER_HOST} {
+	tls {
+		dns cloudflare {$CLOUDFLARE_API_TOKEN}
+	}
+	header Access-Control-Allow-Origin *
+	reverse_proxy radio-server:8000
+}

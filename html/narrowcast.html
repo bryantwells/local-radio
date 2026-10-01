@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="/assets/css/main.css">
+	<script>
+		const USER_ID = Math.random().toString(36).substring(2, 10);
+		const MOUNT_ID = 'local-radio';
+		const MIDDLEWARE_HOST = "//middleware." + window.location.hostname;
+	</script>
+</head>
+
+<body>
+
+	<header class="header">
+		<p><a href="/">Back</a></p>
+	</header>
+
+	<main class="main">
+		<section>
+			<p>
+				You can stream directly from your computer's mic, an external device, or create a 'loopback' using <a
+					href="https://github.com/existentialaudio/blackhole" target="_blank">BlackHole</a> to pipe sound
+				from you computer's output.
+			</p>
+			<br>
+			<p>
+				Input the details below and click 'start'. Your transmission can be accessed by others on the network as
+				long as this page is open.
+			</p>
+		</section>
+		<form class="form" id="form-transmission">
+			<label for="device">Audio Device</label>
+			<select name="device" id="input-device" required>
+				<option value="" disabled selected>Select an input device.</option>
+			</select>
+			<label for="title">Title</label>
+			<input type="text" name="title" id="input-title" required>
+			<label for="description">Description</label>
+			<textarea name="description" id="input-description" rows="3"></textarea>
+			<br>
+			<button type="submit" id="button-start">Start Streaming</button>
+			<button type="button" id="button-stop" hidden>Stop Streaming</button>
+		</form>
+	</main>
+
+	<footer class="footer">
+		<p>Wed, Sep 9, 05:32 EST</p>
+	</footer>
+
+	<script src="/assets/js/lib/socket.io.min.js"></script>
+	<script type="module" src="/assets/js/narrowcast.js"></script>
+</body>
+
+</html>

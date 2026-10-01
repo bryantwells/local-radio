@@ -1,0 +1,7 @@
+[project]
+name = "radio-dns"
+version = "1.0.0"
+requires-python = "==3.13.7"
+dependencies = [
+	"cloudflare==5.7.0"
+]

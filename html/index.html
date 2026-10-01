@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Local Radio</title>
+	<link rel="stylesheet" href="/assets/css/main.css">
+	<script>
+		const MOUNT_ID = 'local-radio';
+		const MIDDLEWARE_HOST = "//middleware." + window.location.hostname;
+		const SERVER_HOST = "//server." + window.location.hostname;
+	</script>
+</head>
+
+<body>
+
+	<header class="header">
+		<h1>Vocable Radio</h1>
+	</header>
+
+	<main id="status" class="main" hidden>
+		<section>
+			<p>
+				This is a bootleg web radio hosted at 1156 Chapel St., New Haven, CT. Narrowcasts can be created at
+				any
+				time, and they can only be accessed via the local WiFi network (YaleSecure). All transmissions are
+				temporary, and never archived.
+			</p>
+		</section>
+
+		<form class="form" id="form-create" action="/narrowcast">
+			<p>
+				No active transmission.
+			</p>
+			<br>
+			<button type="submit">Create a Narrowcast</button>
+		</form>
+	</main>
+
+	<main class="player" id="player" hidden>
+		<header>
+			<h2 id="title"></h2>
+			<p id="description"></p>
+		</header>
+
+		<footer>
+			<button type="button" id="button-play">
+				<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+					<polygon points="15,0 90,50 15,100" />
+				</svg>
+			</button>
+			<button type="button" id="button-pause" hidden>
+				<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+					<rect x="10" y="0" width="30" height="100" />
+					<rect x="60" y="0" width="30" height="100" />
+				</svg>
+			</button>
+			<p id="time">00:00</p>
+		</footer>
+
+		<audio></audio>
+	</main>
+
+	<footer class="footer">
+		<p id="timestamp"></p>
+	</footer>
+
+	<script src="/assets/js/lib/socket.io.min.js"></script>
+	<script type="module" src="/assets/js/main.js"></script>
+</body>
+
+</html>

@@ -17,4 +17,4 @@ services:
       context: ./radio-server
       dockerfile: Dockerfile.dev
     volumes:
-      - ./radio-server/config/icecast.xml:/etc/icecast2/icecast.xml
+      - ./radio-server/icecast.xml:/etc/icecast2/icecast.xml

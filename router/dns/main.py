@@ -22,6 +22,7 @@ def get_ip_address() -> str:
         connection.connect(("1.1.1.1", 80))
         return connection.getsockname()[0]
 
+
 def find_zone_id(zone_name: str) -> str:
     zones = client.zones.list(account={"id": account_id}, name=zone_name)
     zone = next(iter(zones), None)

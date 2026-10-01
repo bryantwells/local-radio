@@ -31,17 +31,17 @@ def draw(source: Source) -> None:
 
     try:
         epd = epd2in7_V2.EPD()
-        epd.Init_4Gray()
+        epd.init()
 
-        font = ImageFont.load_default(size=15)
-        image = Image.new("L", (epd.height, epd.width), 0)
+        font = ImageFont.load_default(size=20)
+        image = Image.new("1", (epd.height, epd.width), 255)
         draw = ImageDraw.Draw(image)
-        draw.text((10, 10), source["metadata"]["title"], font=font, fill=epd.GRAY1)
+        draw.text((10, 10), source["metadata"]["title"], font=font, fill=0)
 
-        draw.text((10, epd.width - 22), get_ip_address(), font=font, fill=epd.GRAY1)
+        draw.text((10, epd.width - 22), get_ip_address(), font=font, fill=0)
 
         image = image.rotate(90, expand=True)
-        epd.display_4Gray(epd.getbuffer_4Gray(image))
+        epd.display(epd.getbuffer(image))
         epd.sleep()
 
     except OSError:
@@ -52,18 +52,18 @@ def clear() -> None:
 
     try:
         epd = epd2in7_V2.EPD()
-        epd.Init_4Gray()
+        epd.init()
         epd.Clear()
 
-        font = ImageFont.load_default(size=15)
-        image = Image.new("L", (epd.height, epd.width), 0)
+        font = ImageFont.load_default(size=20)
+        image = Image.new("1", (epd.height, epd.width), 255)
         draw = ImageDraw.Draw(image)
-        draw.text((10, 10), "hello world", font=font, fill=epd.GRAY2)
+        draw.text((10, 10), "hello world", font=font, fill=0)
 
-        draw.text((10, epd.width - 22), get_ip_address(), font=font, fill=epd.GRAY1)
+        draw.text((10, epd.width - 22), get_ip_address(), font=font, fill=0)
 
         image = image.rotate(90, expand=True)
-        epd.display_4Gray(epd.getbuffer_4Gray(image))
+        epd.display(epd.getbuffer(image))
         epd.sleep()
 
     except OSError:

@@ -10,4 +10,5 @@ dependencies = [
 	"spidev==3.8; sys_platform=='linux'",
 	"gpiozero==2.0.1; sys_platform=='linux'",
 	"python-socketio[client]==5.17.0",
+	"lgpio==0.2.2.0 ; sys_platform == 'linux'",
 ]

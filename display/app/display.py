@@ -33,12 +33,12 @@ def draw(source: Source) -> None:
         epd = epd2in7_V2.EPD()
         epd.init()
 
-        font = ImageFont.load_default(size=20)
+        font = ImageFont.load_default(size=15)
         image = Image.new("1", (epd.height, epd.width), 255)
         draw = ImageDraw.Draw(image)
-        draw.text((10, 10), source["metadata"]["title"], font=font, fill=0)
-
-        draw.text((10, epd.width - 22), get_ip_address(), font=font, fill=0)
+        draw.text((5, 5), get_ip_address(), font=font, fill=0)
+        draw.text((5, 20), "vocable-gestures.xyz", font=font, fill=0)
+        draw.text((5, 35), source["metadata"]["title"], font=font, fill=0)
 
         image = image.rotate(90, expand=True)
         epd.display(epd.getbuffer(image))
@@ -55,12 +55,11 @@ def clear() -> None:
         epd.init()
         epd.Clear()
 
-        font = ImageFont.load_default(size=20)
+        font = ImageFont.load_default(size=15)
         image = Image.new("1", (epd.height, epd.width), 255)
         draw = ImageDraw.Draw(image)
-        draw.text((10, 10), "hello world", font=font, fill=0)
-
-        draw.text((10, epd.width - 22), get_ip_address(), font=font, fill=0)
+        draw.text((5, 5), get_ip_address(), font=font, fill=0)
+        draw.text((5, 20), "vocable-gestures.xyz", font=font, fill=0)
 
         image = image.rotate(90, expand=True)
         epd.display(epd.getbuffer(image))

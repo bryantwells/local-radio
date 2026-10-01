@@ -1,0 +1,23 @@
+name: local-radio
+
+include:
+  - ./display/docker-compose.yml
+  - ./display/docker-compose.pi.yml
+  - ./radio/docker-compose.yml
+  - ./router/docker-compose.yml
+
+services:
+
+  caddy:
+    depends_on:
+      - radio-middleware
+      - radio-server
+
+  display:
+    depends_on:
+      - radio-middleware
+      - radio-server
+
+  radio-middleware:
+    depends_on:
+      - radio-server

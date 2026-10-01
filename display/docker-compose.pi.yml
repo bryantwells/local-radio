@@ -1,0 +1,8 @@
+name: local-radio-display
+services:
+
+  display:
+    devices:
+      - /dev/spidev0.0
+      - /dev/spidev0.1
+      - /dev/gpiochip0

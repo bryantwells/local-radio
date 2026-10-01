@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 font_dir = os.path.join(
     os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
-    "lib",
+    "fonts",
 )
 
 
@@ -25,15 +25,15 @@ def init() -> None:
         epd.Clear()
 
         font = ImageFont.truetype(os.path.join(font_dir, "Arial.ttf"), 24)
-        image = Image.new("L", (epd.width, epd.height), 0)
+        image = Image.new("L", (epd.width, epd.height), epd.GRAY1)
         draw = ImageDraw.Draw(image)
-        draw.text((20, 20), "hello world", font=font, fill=epd.GRAY2)
+        draw.text((20, 20), "hello world", font=font, fill=epd.GRAY4)
 
         epd.display_4Gray(epd.getbuffer_4Gray(image))
         epd.sleep()
 
-    except OSError as e:
-        logger.info(e)
+    except OSError:
+        logger.exception("Failed to initialize display")
 
 
 def draw(source: Source) -> None:
@@ -44,15 +44,15 @@ def draw(source: Source) -> None:
         epd.Clear()
 
         font = ImageFont.truetype(os.path.join(font_dir, "Arial.ttf"), 24)
-        image = Image.new("L", (epd.width, epd.height), 0)
+        image = Image.new("L", (epd.width, epd.height), epd.GRAY1)
         draw = ImageDraw.Draw(image)
-        draw.text((20, 20), source["metadata"]["title"], font=font, fill=epd.GRAY2)
+        draw.text((20, 20), source["metadata"]["title"], font=font, fill=epd.GRAY4)
 
         epd.display_4Gray(epd.getbuffer_4Gray(image))
         epd.sleep()
 
-    except OSError as e:
-        logger.info(e)
+    except OSError:
+        logger.exception("Failed to draw to display")
 
 
 def clear() -> None:
@@ -62,5 +62,5 @@ def clear() -> None:
         epd.init()
         epd.Clear()
 
-    except OSError as e:
-        logger.info(e)
+    except OSError:
+        logger.exception("Failed to clear display")

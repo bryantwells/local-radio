@@ -17,6 +17,25 @@ font_dir = os.path.join(
 )
 
 
+def init() -> None:
+
+    try:
+        epd = epd2in7_V2.EPD()
+        epd.Init_4Gray()
+        epd.Clear()
+
+        font = ImageFont.truetype(os.path.join(font_dir, "Arial.ttf"), 24)
+        image = Image.new("L", (epd.width, epd.height), 0)
+        draw = ImageDraw.Draw(image)
+        draw.text((20, 20), "hello world", font=font, fill=epd.GRAY2)
+
+        epd.display_4Gray(epd.getbuffer_4Gray(image))
+        epd.sleep()
+
+    except OSError as e:
+        logger.info(e)
+
+
 def draw(source: Source) -> None:
 
     try:

@@ -17,36 +17,17 @@ font_dir = os.path.join(
 )
 
 
-def init() -> None:
-
-    try:
-        epd = epd2in7_V2.EPD()
-        epd.Init_4Gray()
-        epd.Clear()
-
-        font = ImageFont.truetype(os.path.join(font_dir, "Arial.ttf"), 24)
-        image = Image.new("L", (epd.width, epd.height), epd.GRAY1)
-        draw = ImageDraw.Draw(image)
-        draw.text((20, 20), "hello world", font=font, fill=epd.GRAY4)
-
-        epd.display_4Gray(epd.getbuffer_4Gray(image))
-        epd.sleep()
-
-    except OSError:
-        logger.exception("Failed to initialize display")
-
-
 def draw(source: Source) -> None:
 
     try:
         epd = epd2in7_V2.EPD()
         epd.Init_4Gray()
-        epd.Clear()
 
         font = ImageFont.truetype(os.path.join(font_dir, "Arial.ttf"), 24)
         image = Image.new("L", (epd.width, epd.height), epd.GRAY1)
         draw = ImageDraw.Draw(image)
-        draw.text((20, 20), source["metadata"]["title"], font=font, fill=epd.GRAY4)
+        draw.text((20, 20), "hello world", font=font, fill=epd.GRAY4)
+        draw.text((20, 40), source["metadata"]["title"], font=font, fill=epd.GRAY4)
 
         epd.display_4Gray(epd.getbuffer_4Gray(image))
         epd.sleep()

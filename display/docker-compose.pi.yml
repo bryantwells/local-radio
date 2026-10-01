@@ -6,3 +6,4 @@ services:
       - /dev/spidev0.0
       - /dev/spidev0.1
       - /dev/gpiochip0
+      - /dev/gpiochip0:/dev/gpiochip4

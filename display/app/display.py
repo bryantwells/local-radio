@@ -33,7 +33,7 @@ def draw(source: Source) -> None:
         epd = epd2in7_V2.EPD()
         epd.Init_4Gray()
 
-        font = ImageFont.truetype(os.path.join(font_dir, "Arial.ttf"), 12)
+        font = ImageFont.load_default(size=15)
         image = Image.new("L", (epd.height, epd.width), 0)
         draw = ImageDraw.Draw(image)
         draw.text((10, 10), source["metadata"]["title"], font=font, fill=epd.GRAY2)
@@ -55,7 +55,7 @@ def clear() -> None:
         epd.Init_4Gray()
         epd.Clear()
 
-        font = ImageFont.truetype(os.path.join(font_dir, "Arial.ttf"), 12)
+        font = ImageFont.load_default(size=15)
         image = Image.new("L", (epd.height, epd.width), 0)
         draw = ImageDraw.Draw(image)
         draw.text((10, 10), "hello world", font=font, fill=epd.GRAY2)

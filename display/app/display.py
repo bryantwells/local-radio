@@ -36,11 +36,13 @@ def draw(source: Source) -> None:
         font = ImageFont.load_default(size=15)
         image = Image.new("1", (epd.height, epd.width), 255)
         draw = ImageDraw.Draw(image)
-        draw.text((5, 5), get_ip_address(), font=font, fill=0)
-        draw.text((5, 20), "vocable-gestures.xyz", font=font, fill=0)
-        draw.text((5, 35), source["metadata"]["title"], font=font, fill=0)
+        draw.text((5, 5), "vocable-gestures.xyz", font=font, fill=0)
+        draw.text((5, 20), get_ip_address(), font=font, fill=0)
 
-        image = image.rotate(90, expand=True)
+        draw.text((5, 50), "Now Live:", font=font, fill=0)
+        draw.text((5, 75), source["metadata"]["title"], font=font, fill=0)
+
+        image = image.rotate(-90, expand=True)
         epd.display(epd.getbuffer(image))
         epd.sleep()
 
@@ -61,7 +63,7 @@ def clear() -> None:
         draw.text((5, 5), get_ip_address(), font=font, fill=0)
         draw.text((5, 20), "vocable-gestures.xyz", font=font, fill=0)
 
-        image = image.rotate(90, expand=True)
+        image = image.rotate(-90, expand=True)
         epd.display(epd.getbuffer(image))
         epd.sleep()
 

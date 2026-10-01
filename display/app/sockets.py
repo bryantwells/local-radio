@@ -38,5 +38,5 @@ def disconnect():
 
 
 def start(url: str) -> None:
-    sio.connect(url)
+    sio.connect(url, retry=True)
     sio.wait()

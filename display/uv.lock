@@ -94,7 +94,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "gpiozero", marker = "sys_platform == 'linux'", specifier = "==2.0.1" },
-    { name = "lgpio", marker = "sys_platform == 'linux'", specifier = ">=0.2.2.0" },
+    { name = "lgpio", marker = "sys_platform == 'linux'", specifier = "==0.2.2.0" },
     { name = "numpy", specifier = "==2.5.0" },
     { name = "pillow", specifier = "==12.3.0" },
     { name = "python-socketio", extras = ["client"], specifier = "==5.17.0" },

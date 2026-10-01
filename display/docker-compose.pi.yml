@@ -2,6 +2,7 @@ name: local-radio-display
 services:
 
   display:
+    network_mode: host
     devices:
       - /dev/spidev0.0
       - /dev/spidev0.1

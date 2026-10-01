@@ -1,7 +1,8 @@
 import logging
+import os
 
 from app.sockets import start
 
 logging.basicConfig(level=logging.DEBUG)
 
-start("http://radio-middleware:3000")
+start(f"https://{os.environ['RADIO_MIDDLEWARE_HOST']}")

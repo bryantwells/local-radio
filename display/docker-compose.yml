@@ -7,5 +7,6 @@ services:
       - display
     environment:
       - PROGRAM_ENVIRONMENT
+      - RADIO_MIDDLEWARE_HOST
     volumes:
       - ./out:/app/out

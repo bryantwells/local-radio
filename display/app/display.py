@@ -36,9 +36,9 @@ def draw(source: Source) -> None:
         font = ImageFont.load_default(size=15)
         image = Image.new("L", (epd.height, epd.width), 0)
         draw = ImageDraw.Draw(image)
-        draw.text((10, 10), source["metadata"]["title"], font=font, fill=epd.GRAY2)
+        draw.text((10, 10), source["metadata"]["title"], font=font, fill=epd.GRAY1)
 
-        draw.text((10, epd.width - 22), get_ip_address(), font=font, fill=epd.GRAY2)
+        draw.text((10, epd.width - 22), get_ip_address(), font=font, fill=epd.GRAY1)
 
         image = image.rotate(90, expand=True)
         epd.display_4Gray(epd.getbuffer_4Gray(image))
@@ -60,7 +60,7 @@ def clear() -> None:
         draw = ImageDraw.Draw(image)
         draw.text((10, 10), "hello world", font=font, fill=epd.GRAY2)
 
-        draw.text((10, epd.width - 22), get_ip_address(), font=font, fill=epd.GRAY2)
+        draw.text((10, epd.width - 22), get_ip_address(), font=font, fill=epd.GRAY1)
 
         image = image.rotate(90, expand=True)
         epd.display_4Gray(epd.getbuffer_4Gray(image))

@@ -1,7 +1,6 @@
 name: local-radio
 
 include:
-  - ./display/docker-compose.yml
   - ./display/docker-compose.pi.yml
   - ./radio/docker-compose.yml
   - ./router/docker-compose.yml

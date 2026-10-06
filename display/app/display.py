@@ -23,7 +23,7 @@ def get_ip_address() -> str:
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as connection:
             connection.connect(("1.1.1.1", 80))
             return connection.getsockname()[0]
-    except OSError:
+    except Exception:
         return "no network"
 
 
@@ -47,7 +47,7 @@ def draw(source: Source) -> None:
         epd.display(epd.getbuffer(image))
         epd.sleep()
 
-    except OSError:
+    except Exception:
         logger.exception("Failed to draw to display")
 
 
@@ -69,5 +69,5 @@ def clear() -> None:
         epd.display(epd.getbuffer(image))
         epd.sleep()
 
-    except OSError:
+    except Exception:
         logger.exception("Failed to clear display")

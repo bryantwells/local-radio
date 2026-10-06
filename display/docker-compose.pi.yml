@@ -3,8 +3,7 @@ services:
 
   display:
     build: ./
-    profiles:
-      - display
+    restart: unless-stopped
     environment:
       - PROGRAM_ENVIRONMENT
       - RADIO_MIDDLEWARE_HOST

@@ -27,7 +27,7 @@ def find_zone_id(zone_name: str) -> str:
     zones = client.zones.list(account={"id": account_id}, name=zone_name)
     zone = next(iter(zones), None)
     if zone is None:
-        sys.exit(f"Could not find a Cloudflare zone for {zone_name}")
+        raise RuntimeError(f"Could not find a Cloudflare zone for {zone_name}")
     return zone.id
 
 

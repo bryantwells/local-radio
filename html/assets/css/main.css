@@ -145,10 +145,10 @@ a {
 	gap: 0.5rem;
 	border: 1px dotted currentColor;
 	margin: 1rem 2rem;
+}
 
-	&[hidden] {
-		display: none;
-	}
+[hidden] {
+	display: none;
 }
 
 .player footer {

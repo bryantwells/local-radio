@@ -2,6 +2,12 @@ name: local-radio-display
 services:
 
   display:
+    build: ./
+    profiles:
+      - display
+    environment:
+      - PROGRAM_ENVIRONMENT
+      - RADIO_MIDDLEWARE_HOST
     network_mode: host
     devices:
       - /dev/spidev0.0

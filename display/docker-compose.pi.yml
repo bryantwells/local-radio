@@ -2,8 +2,9 @@ name: local-radio-display
 services:
 
   display:
-    build: ./
-    dockerfile: ./Dockerfile.pi
+    build:
+      context: ./
+      dockerfile: Dockerfile.pi
     restart: unless-stopped
     environment:
       - PROGRAM_ENVIRONMENT

@@ -9,6 +9,7 @@ from cloudflare.types.dns.record_list_params import Name
 client = Cloudflare(api_token=os.environ["CLOUDFLARE_API_TOKEN"])
 account_id = os.environ["CLOUDFLARE_ACCOUNT_ID"]
 
+ROOT_DOMAIN = os.environ["ROOT_DOMAIN"]
 RADIO_FRONTEND_HOST = os.environ["RADIO_FRONTEND_HOST"]
 RADIO_MIDDLEWARE_HOST = os.environ["RADIO_MIDDLEWARE_HOST"]
 RADIO_SERVER_HOST = os.environ["RADIO_SERVER_HOST"]
@@ -62,7 +63,7 @@ def upsert_a_record(zone_id: str, host: str, ip_address: str) -> None:
 
 def update_all_records() -> None:
     ip_address = get_ip_address()
-    zone_id = find_zone_id(RADIO_FRONTEND_HOST)
+    zone_id = find_zone_id(ROOT_DOMAIN)
     for host in (RADIO_FRONTEND_HOST, RADIO_MIDDLEWARE_HOST, RADIO_SERVER_HOST):
         upsert_a_record(zone_id, host, ip_address)
 

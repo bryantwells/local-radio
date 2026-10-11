@@ -3,10 +3,12 @@ services:
 
   display:
     build: ./
+    dockerfile: ./Dockerfile.pi
     restart: unless-stopped
     environment:
       - PROGRAM_ENVIRONMENT
       - RADIO_MIDDLEWARE_HOST
+      - DISPLAY_MODE=PI
     network_mode: host
     devices:
       - /dev/spidev0.0

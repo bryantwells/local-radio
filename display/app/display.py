@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import os
 import socket
+import threading
 from typing import TYPE_CHECKING
 import textwrap
 
@@ -12,6 +13,7 @@ if TYPE_CHECKING:
     from sockets import Source
 
 logger = logging.getLogger(__name__)
+_lock = threading.Lock()
 TEST_MODE = os.environ.get("DISPLAY_MODE", "").lower() == "test"
 PREVIEW_SIZE = (176, 264)
 
@@ -45,6 +47,8 @@ def save_preview(image: Image.Image) -> None:
 def draw(source: Source) -> None:
 
     try:
+        _lock.acquire()
+        logger.info("draw start (%s): %s", threading.current_thread().name, source["metadata"]["title"])
         epd = None
         if not TEST_MODE:
             from lib.waveshare_epd import epd2in7_V2
@@ -68,16 +72,22 @@ def draw(source: Source) -> None:
             return
 
         image = image.rotate(-180, expand=True)
+        save_preview(image)
         epd.display(epd.getbuffer(image))
         epd.sleep()
+        logger.info("draw done")
 
     except Exception:
         logger.exception("Failed to draw to display")
+    finally:
+        _lock.release()
 
 
 def clear() -> None:
 
     try:
+        _lock.acquire()
+        logger.info("clear start (%s)", threading.current_thread().name)
         epd = None
         if not TEST_MODE:
             from lib.waveshare_epd import epd2in7_V2
@@ -98,8 +108,12 @@ def clear() -> None:
             return
 
         image = image.rotate(-180, expand=True)
+        save_preview(image)
         epd.display(epd.getbuffer(image))
         epd.sleep()
+        logger.info("clear done")
 
     except Exception:
         logger.exception("Failed to clear display")
+    finally:
+        _lock.release()

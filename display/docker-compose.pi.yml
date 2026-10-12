@@ -11,6 +11,8 @@ services:
       - RADIO_MIDDLEWARE_HOST
       - DISPLAY_MODE=PI
     network_mode: host
+    volumes:
+      - ./out:/app/out
     devices:
       - /dev/spidev0.0
       - /dev/spidev0.1

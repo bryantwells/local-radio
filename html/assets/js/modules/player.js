@@ -1,4 +1,4 @@
-import createSourceManager from "./source-manager.js"
+import createSourceManager from "./source-manager.js?v=2"
 
 export default async () => {
 

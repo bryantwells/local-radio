@@ -1,10 +1,13 @@
-import createRecorder from "./recorder.js";
+import createRecorder from "./recorder.js?v=2";
+import createSourceManager from "./source-manager.js?v=2";
 
 export default async () => {
 
 	/**
 	 * Vars
 	 */
+	const statusElement = document.querySelector('#status');
+	const formContainer = document.querySelector('#form');
 	const form = document.querySelector('#form-transmission');
 	const deviceInput = form.querySelector('#input-device');
 	const titleInput = form.querySelector('#input-title');
@@ -12,12 +15,39 @@ export default async () => {
 	const startButton = form.querySelector('#button-start');
 	const stopButton = form.querySelector('#button-stop');
 
+	let formIsVisible = false;
+
+	const { getActiveSourceExists } = await createSourceManager();
+
 	/**
 	 * Init
 	 */
 	const init = async () => {
-		await addDeviceOptions();
-		form.addEventListener('submit', handleFormSubmit);
+		if (!getActiveSourceExists()) {
+			if (!formIsVisible) {
+				showForm();
+				await addDeviceOptions();
+				form.addEventListener('submit', handleFormSubmit);
+			}
+		} else {
+			showStatus();
+		}
+	}
+
+	/**
+	 * Show Form
+	 */
+	const showForm = () => {
+		formContainer.removeAttribute('hidden');
+		statusElement.setAttribute('hidden', '');
+	}
+
+	/**
+	 * Show Status
+	 */
+	const showStatus = () => {
+		statusElement.removeAttribute('hidden');
+		formContainer.setAttribute('hidden', '');
 	}
 
 	/**
@@ -50,10 +80,12 @@ export default async () => {
 
 		disableForm();
 		await startRecording();
+		window.addEventListener('beforeunload', preventUnload);
 
 		stopButton.addEventListener('click', () => {
 			stopRecording();
 			enableForm();
+			window.removeEventListener('beforeunload', preventUnload);
 		}, { once: true });
 	}
 
@@ -79,6 +111,10 @@ export default async () => {
 		[deviceInput, titleInput, descriptionInput].forEach((input) => {
 			input.removeAttribute('disabled');
 		});
+	}
+
+	const preventUnload = (e) => {
+		e.preventDefault();
 	}
 
 	init();

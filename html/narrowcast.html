@@ -19,7 +19,15 @@
 		<p><a href="/">Back</a></p>
 	</header>
 
-	<main class="main">
+	<main class="main" id="status" hidden>
+		<section>
+			<p>
+				Someone else is live! Listen <a href="/">here</a>.
+			</p>
+		</section>
+	</main>
+
+	<main class="main" id="form" hidden>
 		<section>
 			<p>
 				You can stream directly from your computer's mic, an external device, or create a 'loopback' using 
@@ -52,7 +60,7 @@
 	</footer>
 
 	<script src="/assets/js/lib/socket.io.min.js"></script>
-	<script type="module" src="/assets/js/narrowcast.js"></script>
+	<script type="module" src="/assets/js/narrowcast.js?v=2"></script>
 </body>
 
 </html>

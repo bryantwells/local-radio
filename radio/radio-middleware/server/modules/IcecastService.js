@@ -37,6 +37,9 @@ export class IcecastService {
 		// Init props
 		this.db = null;
 		this.clients = [];
+
+		// Time allowed for a new source to appear on icecast before it is considered stale
+		this.sourceGracePeriod = 15000;
 	}
 
 	/**
@@ -121,7 +124,11 @@ export class IcecastService {
 
 		// Get the icecast client and make request
 		const client = this.getClientByUserId(userId);
-		client.killSource(mountId);
+		try {
+			await client.killSource(mountId);
+		} catch (error) {
+			console.error('icecast-error', error);
+		}
 
 		// Update the database
 		if (this.sourceExists(mountId)) {
@@ -137,12 +144,48 @@ export class IcecastService {
 	 */
 	async killAllSources() {
 		await Promise.all(this.db.data.sources.map((source) => {
-			return new Promise(async (resolve) => {
-				await this.killSource(source.userId, source.mountId)
-			});
+			return this.killSource(source.userId, source.mountId);
 		}));
 		this.db.data.sources = [];
 		await this.db.write();
+	}
+
+	/**
+	 * Sync Sources
+	 * Remove sources from the database that are no longer mounted on icecast
+	 * @returns {boolean} true if any sources were removed
+	 */
+	async syncSources() {
+
+		// Get mounted ids from icecast (no clients means nothing is streaming)
+		let mountedIds = [];
+		if (this.clients.length > 0) {
+			try {
+				const mounts = await this.clients[0].listMounts();
+				const mountList = (mounts?.source)
+					? [].concat(mounts.source)
+					: [];
+				mountedIds = mountList.map((mount) => mount['@_mount']);
+			} catch (error) {
+				console.error('icecast-error', error);
+				return false;
+			}
+		}
+
+		// Find sources that are past the grace period and not mounted
+		const staleSources = this.db.data.sources.filter((source) => {
+			const isMounted = mountedIds.includes(`/${source.mountId}`);
+			const isNew = Date.now() - source.createdAt < this.sourceGracePeriod;
+			return !isMounted && !isNew;
+		});
+
+		// Kill stale sources
+		await Promise.all(staleSources.map((source) => {
+			console.log('staleSource', source.userId, source.mountId);
+			return this.killSource(source.userId, source.mountId);
+		}));
+
+		return staleSources.length > 0;
 	}
 
 	/**
@@ -183,7 +226,8 @@ export class IcecastService {
 		this.db.data.sources.push({
 			userId,
 			mountId,
-			metadata
+			metadata,
+			createdAt: Date.now()
 		});
 		await this.db.write();
 	}

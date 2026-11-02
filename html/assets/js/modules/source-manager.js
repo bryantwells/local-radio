@@ -76,9 +76,17 @@ export default async () => {
 		socket.emit('killSource', userId, mountId, bufferLength);
 	}
 
+	/**
+	 * On Reconnect
+	 * @param {Function} callback
+	 */
+	const onReconnect = (callback) => {
+		socket.io.on('reconnect', callback);
+	}
+
 	await init();
 
-	return { getActiveSource, getActiveSourceExists, createSource, putSourceData, killSource }
+	return { getActiveSource, getActiveSourceExists, createSource, putSourceData, killSource, onReconnect }
 
 }
 

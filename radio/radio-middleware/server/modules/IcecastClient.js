@@ -37,10 +37,11 @@ export class IcecastClient {
         this.putRequest = null;
 
         // Put interval
+        this.putTimeoutId = 0;
         this.putIntervalId = 0;
         this.putDelay = this.bufferLength / this.sampleRate * 1000;
-        
-        setTimeout(() => {
+
+        this.putTimeoutId = setTimeout(() => {
             this.putIntervalId = setInterval(() => {
                 this.makePutRequest();
             }, this.putDelay);
@@ -105,7 +106,9 @@ export class IcecastClient {
                         reject(error);
                     });
                 }
-            ).end();
+            ).on('error', (error) => {
+                reject(error);
+            }).end();
         });
     }
 
@@ -168,6 +171,7 @@ export class IcecastClient {
      */
     killSource(mountId) {
         return new Promise((resolve, reject) => {
+            clearTimeout(this.putTimeoutId);
             clearInterval(this.putIntervalId);
             if (this.putRequest) {
                 this.putRequest.end();
@@ -184,11 +188,13 @@ export class IcecastClient {
                 },
                 (response) => {
                     resolve(response.statusCode);
-                    response.on('error', () => {
+                    response.on('error', (error) => {
                         reject(error);
                     });
                 }
-            ).end();
+            ).on('error', (error) => {
+                reject(error);
+            }).end();
         });
     }
 }

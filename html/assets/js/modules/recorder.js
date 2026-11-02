@@ -17,10 +17,11 @@ export default async (deviceId, metadata) => {
 	const encoderWorker = new Worker(encoderWorkerURL);
 
 	let audioSourceNode;
+	let isRecording = false;
 	let SAMPLE_RATE = 48000;
 	let TARGET_BUFFER_LENGTH = SAMPLE_RATE * 3;
 
-	const { createSource, putSourceData, killSource } = await createSourceManager();
+	const { createSource, putSourceData, killSource, onReconnect } = await createSourceManager();
 
 	/**
 	 * Start Recording
@@ -40,6 +41,7 @@ export default async (deviceId, metadata) => {
 
 			// create source
 			createSource(USER_ID, MOUNT_ID, TARGET_BUFFER_LENGTH, metadata);
+			isRecording = true;
 
 			// start audio
 			context.resume();
@@ -86,6 +88,7 @@ export default async (deviceId, metadata) => {
 
 		// Kill source
 		killSource(USER_ID, MOUNT_ID, TARGET_BUFFER_LENGTH);
+		isRecording = false;
 
 	}
 	/**
@@ -130,8 +133,25 @@ export default async (deviceId, metadata) => {
 		return encoderWorker;
 	}
 
+	/**
+	 * Init Reconnect
+	 * The middleware kills the source when the socket disconnects,
+	 * so recreate it if the socket reconnects while still recording
+	 * @param {Object} metadata
+	 * @param {string} metadata.title
+	 * @param {string} metadata.description
+	 */
+	const initReconnect = (metadata) => {
+		onReconnect(() => {
+			if (isRecording) {
+				createSource(USER_ID, MOUNT_ID, TARGET_BUFFER_LENGTH, metadata);
+			}
+		});
+	}
+
 	await initProcessor(context);
 	initWorker(metadata);
+	initReconnect(metadata);
 
 	return { startRecording, stopRecording };
 

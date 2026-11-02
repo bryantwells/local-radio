@@ -34,7 +34,7 @@ icecastService.killAllSources();
 
 // Socket IO
 const io = new Server(server, { cors: { origin: '*' } });
-const { getSources, createSource, putSourceData, killSource } = eventHandlers(io, icecastService);
+const { getSources, createSource, putSourceData, killSource, disconnect } = eventHandlers(io, icecastService);
 io.on('connection', (socket) => {
     console.log('connection');
     socket.emit('sourceList', icecastService.getSourceList());
@@ -42,7 +42,16 @@ io.on('connection', (socket) => {
     socket.on('createSource', createSource);
     socket.on('putSourceData', putSourceData);
     socket.on('killSource', killSource);
+    socket.on('disconnect', disconnect);
 });
+
+// Sync sources with icecast
+// Removes sources that dropped without being killed (timeouts, crashes, etc.)
+setInterval(async () => {
+    if (await icecastService.syncSources()) {
+        io.emit('sourceList', icecastService.getSourceList());
+    }
+}, 10000);
 
 app.get('/', (request, response) => {
     response.send('Hello World from Radio!');

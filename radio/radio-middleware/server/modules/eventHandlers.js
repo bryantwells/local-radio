@@ -4,6 +4,9 @@ import Ffmpeg from "fluent-ffmpeg";
 
 export default (io, icecastService) => {
 
+	// Sockets that own a source
+	let owners = [];
+
 	// Get Sources
 	function getSources() {
 		const socket = this;
@@ -12,6 +15,11 @@ export default (io, icecastService) => {
 
 	// Create Source
 	async function createSource(userId, mountId, bufferLength, metadata) {
+		const socket = this;
+
+		// Replace any previous owner (e.g. a socket that dropped and reconnected)
+		owners = owners.filter((owner) => owner.userId !== userId);
+		owners.push({ socketId: socket.id, userId, mountId, bufferLength });
 		await icecastService.createSource(userId, mountId, bufferLength, metadata, 'audio/ogg');
 		await icecastService.createSource(`${userId}-mp3`, `${mountId}-mp3`, bufferLength, metadata, 'audio/mp3');
 		io.emit('sourceList', icecastService.getSourceList());
@@ -43,7 +51,6 @@ export default (io, icecastService) => {
 
 				// on error
 				console.error('ffmpeg-error', err);
-				reject(err);
 			})
 			.on('end', async () => {
 
@@ -58,6 +65,7 @@ export default (io, icecastService) => {
 
 	// Kill Source
 	async function killSource(userId, mountId, bufferLength) {
+		owners = owners.filter((owner) => owner.userId !== userId);
 		await icecastService.killSource(userId, mountId, bufferLength);
 		await icecastService.killSource(`${userId}-mp3`, `${mountId}-mp3`, bufferLength);
 		await icecastService.killAllSources();
@@ -65,10 +73,30 @@ export default (io, icecastService) => {
 		console.log('killSource', userId, mountId);
 	}
 
+	// Disconnect
+	// Kill the source if its owner leaves without stopping the stream
+	async function disconnect() {
+		const socket = this;
+		const owner = owners.find((owner) => owner.socketId == socket.id);
+		if (!owner) {
+			return;
+		}
+
+		// Only kill if the source still belongs to this owner
+		const source = icecastService.getSourceByMountId(owner.mountId);
+		if (source?.userId == owner.userId) {
+			await killSource(owner.userId, owner.mountId, owner.bufferLength);
+		} else {
+			owners = owners.filter((owner) => owner.socketId !== socket.id);
+		}
+		console.log('disconnect', owner.userId, owner.mountId);
+	}
+
 	return {
 		getSources,
 		createSource,
 		putSourceData,
 		killSource,
+		disconnect,
 	}
 }
